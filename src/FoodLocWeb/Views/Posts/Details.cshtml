@@ -1,0 +1,55 @@
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model FoodLoc.Models.Posts
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Posts</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImageName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhotoTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UploadedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UploadedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpoadedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpoadedBy)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

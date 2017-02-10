@@ -1,0 +1,227 @@
+
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+
+@model IEnumerable<FoodLoc.Models.Posts>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (p) {
+            $('body').removeClass('loaded');
+            var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+            getAddress(p.coords.latitude, p.coords.longitude);
+            $('body').addClass('loaded');
+        });
+    } else {
+        alert('Geo Location feature is not supported in this browser.');
+    };
+
+    function getAddress(latitude, longitude) {
+        return new Promise(function (resolve, reject) {
+            var request = new XMLHttpRequest();
+
+            var method = 'GET';
+            var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
+                latitude +
+                ',' +
+                longitude +
+                '&sensor=true';
+            var async = true;
+
+            request.open(method, url, async);
+            request.onreadystatechange = function () {
+                if (request.readyState == 4) {
+                    if (request.status == 200) {
+                        var data = JSON.parse(request.responseText);
+                        var address = data.results[0];
+                        resolve(address);
+                        getAddressComponent(address, latitude, longitude);
+                    } else {
+                        reject(request.status);
+                    }
+                }
+            };
+            request.send();
+        });
+    };
+
+    function getAddressComponent(address, latitude, longitude) {
+        $('#near').html('NEAR ' + address.formatted_address);
+        loadPost(latitude, longitude);
+
+    }
+
+    function loadPost(latitude, longitude) {
+
+        $("#dvPosts")
+            .load(
+                '@(Url.Action("ViewPostByLocation", "Posts", null))/' + latitude + '/' + longitude);
+    };
+
+    $(document)
+        .ready(function () {
+            /* copy loaded thumbnails into carousel */
+            $('.row .thumbnail')
+                .on('load',
+                    function () {
+
+                    })
+                .each(function (i) {
+                    if (this.complete) {
+                        var item = $('<div class="item"></div>');
+                        var itemDiv = $(this).parents('div');
+                        var title = $(this).parent('a').attr("title");
+
+                        item.attr("title", title);
+                        $(itemDiv.html()).appendTo(item);
+                        item.appendTo('.carousel-inner');
+                        if (i == 0) { // set first item active
+                            item.addClass('active');
+                        }
+                    }
+                });
+
+            /* activate the carousel */
+            $('#modalCarousel').carousel({ interval: false });
+
+            /* change modal title when slide changes */
+            $('#modalCarousel')
+                .on('slid.bs.carousel',
+                    function () {
+                        $('.modal-title').html($(this).find('.active').attr("title"));
+                    })
+
+            /* when clicking a thumbnail */
+            $('.row .thumbnail')
+                .click(function () {
+                    var idx = $(this).parents('div').index();
+                    var id = parseInt(idx);
+                    $('#myModal').modal('show'); // show the modal
+                    $('#modalCarousel').carousel(id); // slide carousel to selected
+                    $('#myModal #extrainfo').show();
+                });
+        });
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+<style type="text/css">
+    .modal-dialog {
+        width: 600px;
+    }
+
+    .thumbnail {
+        margin-bottom: 6px;
+    }
+
+    .gallery {
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .fancybox-title-float-wrap .child {
+        border-radius: 3px;
+        background-color: white;
+        color: black;
+        font-weight: bold;
+        text-shadow: none;
+    }
+
+    .modal-dialog {
+    }
+
+    .thumbnail {
+        margin-bottom: 6px;
+    }
+
+    .carousel-control.left, .carousel-control.right {
+        background-image: none;
+    }
+    .glyphicon.glyphicon-remove-circle {
+        font-size: 30px;
+        float: right;
+}
+    
+</style>
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<section id='screenshots' class='main-section parallax' data-parallax='scroll' data-image-src='img/bg-main.jpg'>
+    <!-- Particles Background -->
+@*    <div id='particles' class='particle-bg'></div>*@
+    <div class='container'>
+
+        <div class='section-header text-center' style="color: white;">
+            <h2 class='wow fadeInUp' data-wow-delay='.2s'>Recent Yummilicious Post</h2>
+            <h2 class='wow fadeInUp' data-wow-delay='.2s' id="near"></h2>
+
+            <a asp-controller="Posts"
+               asp-action="Create" class="btn btn-info">Post your own Pic</a>
+        </div>
+       
+        <div class="row">
+            <div class='list-group gallery'>
+                @foreach (var item in Model)
+                {
+                    var @imageUrl = "/images/Posts/" + item.ImageName;
+                    var @location = "https://maps.google.com/?q=+" + item.Latitude + "," + item.Longitude;
+
+
+                    <div class="col-lg-3 col-sm-4 col-xs-6">
+                        <a title="@item.PhotoTitle" href="#" style="width: 30%; height: 30%">
+                            <img class="thumbnail fancybox" src="@imageUrl" style="width: 100%; height: 250px">
+                            <div id='extrainfo' style="display: none">
+                                <div class='col-lg-8'>
+                                    <h4>
+                                        Uploaded By: <medium class='text-muted'>@item.UpoadedBy</medium>
+                                    </h4>
+                                </div>
+                                <div class='col-lg-4'>
+                                    
+                                    <a href="@location" target="_blank" class="btn btn-info">Go To Location</a>
+                                </div>
+                                <div class='col-lg-12'>
+                                    <h4>Restaurant Name: <medium class='text-muted'>@item.RestaurantName</medium></h4>
+                                </div>
+
+
+                            </div>
+                        </a>
+                    </div>
+
+                }
+
+
+                <hr>
+
+                <hr>
+            </div>
+        </div>
+
+    </div>
+    <div tabindex="-1" class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                                        <button class="glyphicon glyphicon-remove-circle" type="button" data-dismiss="modal"></button>
+
+
+                    <h3 class="modal-title">Heading</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="modalCarousel" class="carousel">
+                        <div class="carousel-inner"></div>
+                        <a class="carousel-control left" href="#modaCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                        <a class="carousel-control right" href="#modalCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

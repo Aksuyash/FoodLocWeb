@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section id='intro' class='main-section parallax' data-parallax='scroll' data-image-src='img/bg-main.jpg'>
+
+    <!-- Particles Background -->
+    <div id='particles' class='particle-bg'></div>
+
+    <div class='container'>
+        <div class='row'>
+
+            <div class='col-md-6'>
+
+                <div class='intro-text' style='float: left'>
+
+                    <h1 class='wow fadeInUp' data-wow-delay='.2s'>
+                        Best way to promote your app!
+                    </h1>
+
+                    <p class='font-alt wow fadeInUp' data-wow-delay='.4s'>With this amazing template</p>
+
+
+                </div>
+            </div>
+            <div class='col-md-6 right'>
+                <div class='mockup right'>
+                    <img src='~/img/OurFood.gif' class='front wow fadeInDown' data-wow-duration='.7s' data-wow-delay='1.6s' alt>
+                </div>
+
+            </div>
+            <!--======================================================
+            Subscription Form
+            ======================================================-->
+            <div class="clearfix"></div>
+            <section id='download' class='cta-section parallax' data-parallax='scroll'>
+                <div class='container'>
+                    <div class='newsletter'>
+                        
+                        <h4 class='wow fadeInUp' data-wow-delay='.2s'>Stay Updated</h4>
+                        <div class='row'>
+                            <div class='col-md-6 col-md-offset-2 col-sm-6 col-lg-6'>
+                                <!-- Newsletter Form -->
+                                <form class='newsletter-form' method='post' action='http://example.us11.list-manage.com/subscribe/post?u=5e52e42b5fdb949fb5ed82047&id=826e149b9d'>
+                                    <div class='subscribe-input wow fadeInUp' data-wow-delay='.4s'>
+                                        <input class='txt' type='email' id='newsletter-email' name='email' placeholder='Your Email'>
+                                        <span></span>
+                                        <button class='subscribe' type='submit' onclick="suscribe()">Subscribe</button>
+                                    </div>
+                                    <label for='newsletter-email'></label>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+</section> -->
+
+
+
+
+<!--======================================================
+    Photo Secion
+======================================================-->
+<section id="photos" class="home-section text-center bg-gray">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="wow bounceInDown" data-wow-delay="0.4s">
+                    <br /><br />
+                    <div class="section-heading">
+                        <a asp-controller="Posts"
+                           asp-action="Index" class="btn btn-info">Food Around You</a><br/><br />
+                        <a asp-controller="Posts"
+                           asp-action="Create" class="btn btn-info">Upload a Picture, enjoy and share</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+
+<!--======================================================
+    Contact Section
+======================================================-->
+<section id='contact' class='contact-section'>
+    <div class='container'>
+
+        <div class='section-header text-center'>
+            <h2 class='wow fadeInUp' data-wow-delay='.2s'>Say Hello!</h2>
+            <p class='wow fadeInUp' data-wow-delay='.4s'>If you've got any questions, mail us, we will get in touch</p>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-8 col-md-offset-2'>
+
+                <form id='contact-form' name='contactForm' class='contact-form' data-toggle='validator'>
+
+                    <div id='contact-form-result'></div>
+
+                    <div class='row'>
+                        <div class='col-md-6'>
+
+                            <div class='form-group'>
+                                <input type='text' class='form-control wow fadeInUp' data-wow-delay='.4s' name='name' placeholder='Name' required>
+                                <div class='help-block with-errors'></div>
+                            </div>
+
+                        </div>
+                        <div class='col-md-6'>
+
+                            <div class='form-group'>
+                                <input type='email' class='form-control wow fadeInUp' data-wow-delay='.5s' name='email' placeholder='Email' required>
+                                <div class='help-block with-errors'></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class='form-group'>
+                        <input type='text' class='form-control wow fadeInUp' data-wow-delay='.6s' name='subject' placeholder='Subject' required>
+                        <div class='help-block with-errors'></div>
+                    </div>
+
+                    <div class='form-group'>
+                        <textarea class='form-control wow fadeInUp' data-wow-delay='.8s' name='message' placeholder='Message' rows='5' required></textarea>
+                        <div class='help-block with-errors'></div>
+                    </div>
+
+                    <div class='form-group text-center'>
+                        <button type='submit' class='btn-custom wow fadeInUp' data-wow-delay='1s'>
+                            Send Message
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+

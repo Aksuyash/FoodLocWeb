@@ -1,0 +1,142 @@
+@model FoodLoc.Models.Posts
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<style type="text/css">
+    .container {
+        margin-top: 20px;
+    }
+
+    .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .image-preview-input input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .image-preview-input-title {
+        margin-left: 2px;
+    }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="~/js/jPost.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#save")
+            .click(function () {
+                
+               
+                if ($('input[name=Latitude]').val() === '') {
+                    alert('Please enable the location');
+                    return false;
+                }
+                if ($("#ImageName").val() == '') {
+                    // your validation error action
+                    alert('Please upload image');
+                    valid = false;
+
+                }
+                return true;
+            });
+    });
+
+</script>
+<section id='contact' class='main-section parallax' data-parallax='scroll' data-image-src='../img/bg-main.jpg'>
+    <!-- Particles Background -->
+
+    <div class='container'>
+
+        <div class='section-header text-center'>
+            @*<h2 class='wow fadeInUp' data-wow-delay='.2s'>Upload your best food you eat recently!</h2>*@
+            <p class='wow fadeInUp' data-wow-delay='.4s'>Upload your best food you eat recently!</p>
+            <p class='wow fadeInUp' data-wow-delay='.4s'>Please share your location to post!</p>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-8 col-md-offset-2'>
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div class="form-horizontal">
+                        <hr />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="UpoadedBy" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="UpoadedBy" class="form-control  wow fadeInUp" placeholder="Your Name" />
+                                <span asp-validation-for="UpoadedBy" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PhotoTitle" class="col-md-2 control-label "></label>
+                            <div class="col-md-10">
+                                <input asp-for="PhotoTitle" class="form-control   wow fadeInUp" placeholder="Caption" />
+                                <span asp-validation-for="PhotoTitle" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="RestaurantName" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="RestaurantName" class="form-control   wow fadeInUp" placeholder="Restaurant Name" />
+                                <span asp-validation-for="RestaurantName" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ImageName" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <div class="input-group image-preview">
+                                    <input type="text" class="form-control  image-preview-filename" readonly="true"> <!-- don't give a name === doesn't send on POST/GET -->
+                                    <span class="input-group-btn">
+                                        <!-- image-preview-clear button -->
+                                        <button type="button" class="btn btn-default btn-custom wow fadeInUp image-preview-clear" style="display: none;">
+                                            <span class="glyphicon glyphicon-remove"></span> Clear
+                                        </button>
+                                        <!-- image-preview-input -->
+                                        <div class="btn btn-default btn-custom wow fadeInUp image-preview-input">
+                                            <span class="glyphicon glyphicon-folder-open"></span>
+                                            <span class="image-preview-input-title ">Choose File</span>
+                                            <input asp-for="ImageName" type="file" accept="image/png, image/jpeg, image/gif" /> <!-- rename it -->
+                                        </div>
+                                    </span>
+
+                                </div><!-- /input-group image-preview [TO HERE]-->
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input asp-for="Latitude" class="form-control" type="hidden" />
+                                <input asp-for="Longitude" class="form-control" type="hidden" />
+                            </div>
+                        </div>
+                        <div class='form-group text-center'>
+                            <button type='submit' class='btn-custom wow fadeInUp' data-wow-delay='1s' id="save">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
